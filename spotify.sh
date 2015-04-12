@@ -59,6 +59,18 @@ while [ $# -ge 1 ]; do
             runspotify previous track
             shift
             ;;
+        -r|--repeat)
+            noargs "$#" "$1"
+            repeating=$(runspotify repeating)
+            if [ "${repeating}" == true ];then
+                runspotify set repeating to false
+            else
+                runspotify set repeating to true
+            fi
+            repeating=$(runspotify repeating)
+            echo "Will spotify now repeat? ${repeating}"
+            shift
+            ;;
         -v|--volume)
             regex='^[0-9]+$'
             if [[ "$2" =~ $regex ]];then
