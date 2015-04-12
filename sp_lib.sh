@@ -1,9 +1,7 @@
 #!/bin/bash
 
 
-#echo "Hello World $@ $#"
 function runspotify {
-#echo "$@"
 osascript <<EOF
     tell application "Spotify"
         $@
@@ -18,7 +16,7 @@ function play_track {
         artists+=("${artist}")
         uris+=("${uri}")
     done <<< "${data}"
-    echo "${uris[@]}"
+    #echo "${uris[@]}"
     length=$(echo ${#songs[@]})
     for (( i = 0; i < ${length}; i++ )); do
         echo "[$(echo "${i}+1"|bc)] ${songs[${i}]} by ${artists[${i}]}"
@@ -40,15 +38,15 @@ function play_track {
 }
 
 function song_by_track {
-    data=$(curl -X GET "https://api.spotify.com/v1/search?q=track:dead&type=track" \
+    data=$(curl -s -X GET "https://api.spotify.com/v1/search?q=track:dead&type=track" \
     -H "Accept: application/json" | ./parse_json.py)
+    play_track "${data}"
 }
 
 
 function song_by_track_artist {
-    data=$(curl -X GET "https://api.spotify.com/v1/search?q=track:"$1"+artist:"$2"&type=track" \
+    data=$(curl -s -X GET "https://api.spotify.com/v1/search?q=track:"$1"+artist:"$2"&type=track" \
     -H "Accept: application/json" | ./parse_json.py)
-    echo "${data}"
     play_track "${data}"
 }
 

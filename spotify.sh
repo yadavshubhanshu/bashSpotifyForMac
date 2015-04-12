@@ -111,6 +111,13 @@ while [ $# -ge 1 ]; do
             fi
             shift
             ;;
+        -sm|--sendmessage)
+            noargs "$#" "$1"
+            read -p "enter the recipient to send  " rec
+            uri=$(runspotify spotify url of current track)
+            osascript sendMessage.applescript "${rec}" "${uri}"
+            shift
+            ;;
         *)
             if [ ${PLAY} == true ];then
                 if [ -z "${song}" ];then
