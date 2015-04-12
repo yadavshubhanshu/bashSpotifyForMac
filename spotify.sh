@@ -49,6 +49,53 @@ while [ $# -ge 1 ]; do
             ARTIST=true
             PLAY=false
             ;;
+        -n|--next)
+            noargs "$#" "$1"
+            runspotify next track
+            shift
+            ;;
+        -pr|--previous)
+            noargs "$#" "$1"
+            runspotify previous track
+            shift
+            ;;
+        -v|--volume)
+            if [ "$2" = "up" ];then
+                regex='^[0-9]+$'
+                shift
+                vol=$(runspotify sound volume)
+                if [ -z "$2" ];then
+                    newvol=$(echo "${vol}+10"|bc)
+                    echo "Volume is now ${newvol}"
+                    runspotify set sound volume to "${newvol}"
+                elif [[ "$2" =~ $regex ]]; then
+                    newvol=$(echo "${vol}+$2"|bc)
+                    runspotify set sound volume to "${newvol}"
+                    echo "Volume is now ${newvol}"
+                    shift
+                else
+                    echo "Specify only integers with up or keep it empty"
+                fi
+            fi
+            if [ "$2" = "down" ];then
+                regex='^[0-9]+$'
+                shift
+                vol=$(runspotify sound volume)
+                if [ -z "$2" ];then
+                    newvol=$(echo "${vol}-10"|bc)
+                    echo "Volume is now ${newvol}"
+                    runspotify set sound volume to "${newvol}"
+                elif [[ "$2" =~ $regex ]]; then
+                    newvol=$(echo "${vol}-$2"|bc)
+                    runspotify set sound volume to "${newvol}"
+                    echo "Volume is now ${newvol}"
+                    shift
+                else
+                    echo "Specify only integers with up or keep it empty"
+                fi
+            fi
+            shift
+            ;;
         *)
             if [ ${PLAY} == true ];then
                 if [ -z "${song}" ];then

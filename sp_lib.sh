@@ -3,7 +3,7 @@
 
 #echo "Hello World $@ $#"
 function runspotify {
-echo "$@"
+#echo "$@"
 osascript <<EOF
     tell application "Spotify"
         $@
