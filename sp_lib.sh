@@ -38,7 +38,7 @@ function play_track {
 }
 
 function song_by_track {
-    data=$(curl -s -X GET "https://api.spotify.com/v1/search?q=track:dead&type=track" \
+    data=$(curl -s -X GET "https://api.spotify.com/v1/search?q=track:"$1"&type=track" \
     -H "Accept: application/json" | ./parse_json.py)
     play_track "${data}"
 }
