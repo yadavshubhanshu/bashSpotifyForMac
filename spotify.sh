@@ -74,9 +74,10 @@ while [ $# -ge 1 ]; do
         -v|--volume)
             regex='^[0-9]+$'
             if [[ "$2" =~ $regex ]];then
-                runspotify set volume to "$2"
+                runspotify set sound volume to "$2"
+                shift
             fi
-            if [ "$2" = "up" ];then
+            if [ -z "$2" ] && [ "$2" = "up" ];then
                 shift
                 vol=$(runspotify sound volume)
                 if [ -z "$2" ];then
